@@ -10,12 +10,13 @@ import android.widget.Toast;
 public class MainActivity extends AppCompatActivity {
 
     Button btnOne, btnTwo, btnThree, btnFour, btnFive, btnSix
-            , btnSeven, btnEight, btnNine, btnEqual, btnPlus, btnMinus, btnDivide;
+            , btnSeven, btnEight, btnNine, btnEqual, btnPlus, btnMinus, btnDivide, btnMultiply;
 
     TextInputEditText edtInputNumber;
     String inputNumber;
 
-    double value1, value2;
+    int value1, value2;
+    boolean addition, subtraction, division, multiplication;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +36,7 @@ public class MainActivity extends AppCompatActivity {
         btnPlus = (Button) findViewById(R.id.btnPlus);
         btnMinus = (Button) findViewById(R.id.btnMinus);
         btnDivide = (Button) findViewById(R.id.btnDivide);
+        btnMultiply = (Button) findViewById(R.id.btnMultiply);
 
         edtInputNumber = (TextInputEditText) findViewById(R.id.edtInputNumber);
 
@@ -113,33 +115,68 @@ public class MainActivity extends AppCompatActivity {
         btnPlus.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                inputNumber = edtInputNumber.getText().toString();
-                edtInputNumber.setText(inputNumber + btnPlus.getText().toString());
-            }
+                value1 =  Integer.parseInt(edtInputNumber.getText().toString());
+                edtInputNumber.setText(null);
+
+                addition = true;
+
+             }
         });
 
         btnMinus.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                inputNumber = edtInputNumber.getText().toString();
-                edtInputNumber.setText(inputNumber + btnMinus.getText().toString());
+                value1 = Integer.parseInt(edtInputNumber.getText().toString());
+                edtInputNumber.setText(null);
+
+                subtraction = true;
             }
         });
 
         btnDivide.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                inputNumber = edtInputNumber.getText().toString();
-                edtInputNumber.setText(inputNumber + btnDivide.getText().toString());
+                value1 = Integer.parseInt(edtInputNumber.getText().toString());
+                edtInputNumber.setText(null);
+
+                division = true;
+            }
+        });
+
+        btnMultiply.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                value1 = Integer.parseInt(edtInputNumber.getText().toString());
+                edtInputNumber.setText(null);
+
+                multiplication = true;
             }
         });
 
         btnEqual.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                float total = Float.parseFloat(edtInputNumber.getText().toString());
+                if(addition){
+                    value2 = Integer.parseInt(edtInputNumber.getText().toString());
+                    edtInputNumber.setText(value1 + value2 + "");
+                    addition = false;
+                }
+                else if(subtraction) {
+                    value2 = Integer.parseInt(edtInputNumber.getText().toString());
+                    edtInputNumber.setText(value1 - value2 + "");
+                    subtraction = false;
+                }
+                else if(division) {
+                    value2 = Integer.parseInt(edtInputNumber.getText().toString());
+                    edtInputNumber.setText(value1 / value2 + "");
+                    division = false;
+                }
+                else if(multiplication) {
+                    value2 = Integer.parseInt(edtInputNumber.getText().toString());
+                    edtInputNumber.setText(value1 * value2 + "");
+                    multiplication = false;
+                }
 
-                Toast.makeText(MainActivity.this, String.valueOf(total) , Toast.LENGTH_SHORT).show();
             }
         });
     }
